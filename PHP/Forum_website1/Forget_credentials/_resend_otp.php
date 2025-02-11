@@ -6,11 +6,11 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
-require '../library/PHPMailer/PHPMailer.php'; // PHPMailer लोड करें (Composer से)
-require '../library/PHPMailer/SMTP.php'; // PHPMailer लोड करें (Composer से)
-require '../library/PHPMailer/Exception.php'; // PHPMailer लोड करें (Composer से)
-require '../Partials/db_connection.php'; // डेटाबेस कनेक्शन फ़ाइल इंक्लूड करें
-require '../library/PHPMailer/POP3.php'; // PHPMailer लोड करें (डाउनलोड करके)
+require '../library/PHPMailer/PHPMailer.php'; // PHPMailer 
+require '../library/PHPMailer/SMTP.php'; // PHPMailer
+require '../library/PHPMailer/Exception.php'; // PHPMailer
+require '../Partials/db_connection.php'; // 
+require '../library/PHPMailer/POP3.php'; // PHPMailer
 
 // Function to generate a 6-digit OTP
 function generateOTP() {
@@ -32,14 +32,19 @@ $mail = new PHPMailer(true);
 try {
 
     $mail->isSMTP();
-        $mail->Host = 'smtp.gmail.com';
+        $mail->Host = 'smtp.gmail.com'; // Fake SMTP host used here for demonstration
         $mail->SMTPAuth = true;
-        $mail->Username = 'idiscuss.smtp@gmail.com'; // admin gmail
-        $mail->Password = 'wfxj vsfy krzq xyxd'; // App Password
+
+        // Sensitive Data: Replace with a secure method, like an environment variable, for actual deployment
+        // Replace 'your-email@gmail.com' with a placeholder for the admin's email
+        // Replace 'your-app-password' with a placeholder for the app password
+        $mail->Username = 'your-email@gmail.com'; // Replace with your email address securely
+        $mail->Password = 'your-app-password'; // Replace with your app password securely (never hard-code)
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $mail->Port = 587;
 
-        $mail->setFrom('idiscuss.smtp@gmail.com', 'iDiscuss Support');
+        // From address - use a generic email here, such as a support address
+        $mail->setFrom('your-email@gmail.com', 'iDiscuss Support'); // Replace with a secure email address
         $mail->addAddress($email);
 
         $mail->isHTML(true);
@@ -62,9 +67,7 @@ try {
             </div>
         ";
 
-
-    
-
+    // Check if the email was sent
     if ($mail->send()) {
         $_SESSION['message'] = "📩 New OTP has been sent to your email!";
     } else {
@@ -72,9 +75,11 @@ try {
     }
 } catch (Exception $e) {
     $_SESSION['message'] = "❌ Email not sent: " . $mail->ErrorInfo;
+    // Log the detailed error for debugging (never expose this in production)
     error_log("PHPMailer Error: " . $mail->ErrorInfo);
 }
 
+// Redirect to OTP verification page
 header("Location: _verify_otp.php");
 exit();
 ?>
