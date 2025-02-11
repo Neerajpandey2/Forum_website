@@ -1,3 +1,4 @@
+//if you are using localhost then you have to config the php.init and email.init files in you xampp server.(to enable smtp service)
 <?php
 session_start();
 use PHPMailer\PHPMailer\PHPMailer;
@@ -36,12 +37,12 @@ if (isset($_POST['send_otp'])) {
         $mail->isSMTP();
         $mail->Host = 'smtp.gmail.com';
         $mail->SMTPAuth = true;
-        $mail->Username = 'idiscuss.smtp@gmail.com'; // Admin Gmail
-        $mail->Password = 'wfxj vsfy krzq xyxd'; // App Password
+        $mail->Username = '   '; // Admin Gmail (enter enail id from which you want to send otps to the user) .
+        $mail->Password = '   '; // create App Password for your email account which will god practice instead of hardcore the actual password
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $mail->Port = 587;
 
-        $mail->setFrom('idiscuss.smtp@gmail.com', 'iDiscuss Support');
+        $mail->setFrom('youremail.com', 'iDiscuss Support');
         $mail->addAddress($email);
 
         $mail->isHTML(true);
